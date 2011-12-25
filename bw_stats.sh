@@ -70,7 +70,7 @@ grep currentThreadsBusy ThreadPool.txt | awk '{print $3}' | sed 's/\;/\,/g' | se
  
  
 #Turn rows in to CSV columns
-echo "Time, CommittedBytes, InitialBytes, MaxBytes, Used" >> $HOSTNAME"_Totals.csv"
+echo "Time, CommittedBytes_Heap, InitialBytes_Heap, MaxBytes_Heap, UsedBytes_Heap, TotalBytes, FreeBytes, UsedBytes, Percent_Memory_Used, Free_OS_Memory, PeakThreadCount, DaemonThreadCount, MaxThreads, CurrentThreadCount, CurrentThreadsBusy " >> $HOSTNAME"_Totals.csv"
 ./awks.sh BW.csv.tmp $HOSTNAME"_Totals.csv"
  
 #echo "Time, Total Bytes, Free Bytes, UsedBytes, PercentUsed" >>  $HOSTNAME"_MemoryUsage.csv"
