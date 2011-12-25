@@ -77,6 +77,14 @@ grep "TS2 Inquire Multi, ProcessDefinitions/CreditCards/GetAccountDetails/Implem
 
 grep " Perform GetSCV HTTP, BWP.Core/Services/GetSCV/Interface/wsPerformGetSCV.process," $INPUTLOG >> $OUTPUTDIR/$SUBDIR/$HOSTNAME"_GetSCV_TBSBTotal.csv"
 
+
+#CheckCustomerCSSOID
+
+grep "CI Search By Party Identifier, ProcessDefinitions/CustomerIndex/SearchByPartyIdentifer/Implementation/SearchByPartyIdentifier.process, BWP.Core/Services/CheckCustomer/Interface/wsPerformCheckCustomer.process/Perform Check Customer>BWP.Core/Services/CheckCustomer/Implementation/PerformCheckCustomer.process/Search By Party Identifier" $INPUTLOG >> $OUTPUTDIR/$SUBDIR/$HOSTNAME"_CheckCustomer_CISearchPartyByIdentifier.csv"
+
+grep " Perform Check Customer, BWP.Core/Services/CheckCustomer/Interface/wsPerformCheckCustomer.process," $INPUTLOG >> $OUTPUTDIR/$SUBDIR/$HOSTNAME"_CheckCustomer_TBSBTotal.csv"
+
+
 #Removing empty .csv files
 find $OUTPUTDIR -maxdepth 2 -type f -empty -print0|xargs -0 rm -f
 
