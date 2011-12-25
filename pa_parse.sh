@@ -17,19 +17,19 @@ fi
 
 if [ -z "$2" ]
 then
-  echo "No input file"; echo "usage <script.sh> file_name host_name pa_port OUTPUT_DIR"
+  echo "No Host Name"; echo "usage <script.sh> file_name host_name pa_port OUTPUT_DIR"
   exit	
 fi 
 
 if [ -z "$3" ]
 then
-  echo "No input file"; echo "usage <script.sh> file_name host_name pa_port OUTPUT_DIR"
+  echo "No Policy Agent Port"; echo "usage <script.sh> file_name host_name pa_port OUTPUT_DIR"
   exit	
 fi 
 
 if [ -z "$4" ]
 then
-  echo "No input file"; echo "usage <script.sh> file_name host_name pa_port OUTPUT_DIR"
+  echo "No Output Directory"; echo "usage <script.sh> file_name host_name pa_port OUTPUT_DIR"
   exit	
 fi 
 
