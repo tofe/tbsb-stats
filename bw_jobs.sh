@@ -23,7 +23,12 @@ fi
 
 mkdir -p $OUTPUTDIR/$SUBDIR
 
+
+
+
+
 #Send Temporary Pin Stats
+
 grep "CI Search By Party Identifier, ProcessDefinitions/CustomerIndex/SearchByPartyIdentifer/Implementation/SearchByPartyIdentifier.process, BWP.Core/Services/SendTemporaryPIN/Interface/wsPerformSendTemoraryPin.process/Perform Send Temporary PIN>BWP.Core/Services/SendTemporaryPIN/Implementation/PerformSendTemporaryPIN.process/Search By Party Identifier" $INPUTLOG >> $OUTPUTDIR/$SUBDIR/$HOSTNAME"_SendTempPin_CI.csv"
 
 grep "TS2 Inquire Multi Info, ProcessDefinitions/CreditCards/GetCustomerAddress/Implementation/GetCustaddress.process, BWP.Core/Services/SendTemporaryPIN/Interface/wsPerformSendTemoraryPin.process/Perform Send Temporary PIN>BWP.Core/Services/SendTemporaryPIN/Implementation/PerformSendTemporaryPIN.process/Retrieve Customer Address from Credit Cards" $INPUTLOG >> $OUTPUTDIR/$SUBDIR/$HOSTNAME"_SendTempPin_TS2.csv"
@@ -72,4 +77,6 @@ grep "TS2 Inquire Multi, ProcessDefinitions/CreditCards/GetAccountDetails/Implem
 
 grep " Perform GetSCV HTTP, BWP.Core/Services/GetSCV/Interface/wsPerformGetSCV.process," $INPUTLOG >> $OUTPUTDIR/$SUBDIR/$HOSTNAME"_GetSCV_TBSBTotal.csv"
 
+#Removing empty .csv files
+find $OUTPUTDIR -maxdepth 2 -type f -empty -print0|xargs -0 rm -f
 
