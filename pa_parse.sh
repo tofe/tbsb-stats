@@ -1,8 +1,28 @@
-INPUTLOG=ukirsbm1_pa_jmx_stats__170807_15122011_8590.log
-BWHOSTNAME=ukirsbm1
-PAPORT=8590
-DATEOFTEST=15122011
-TEST=GetSCV
+INPUTLOG=$1
+HOSTNAME=$2
+PAPORT=$3
+#DATEOFTEST=15122011
+#TEST=GetSCV
+
+
+if [ -z "$1" ]
+then
+  echo "No input file"; echo "usage <script.sh> file_name host_name pa_port"
+  exit	
+fi 
+
+if [ -z "$2" ]
+then
+  echo "Hostname is null." ; echo "usage <script.sh> file_name host_name pa_port"
+  exit	
+fi 
+
+if [ -z "$3" ]
+then
+  echo "Policy Agent Port is null" ; echo "usage <script.sh> file_name host_name pa_port"
+  exit	
+fi 
+
  
 #Get Time Stamps
 #for i in `egrep '[0-9][0-9]:[0-9][0-9]' $INPUTLOG`; do echo $i"," ; done >> timestamps.txt
@@ -59,25 +79,25 @@ grep minSpareThreads Connector.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n
  
  
 ##Turn rows in to CSV columns
-echo "Time, CommittedHeap, InitialHeap, MaxHeap, UsedHeap, threadCount, peakThreadCount, DeamonThreadCount, CurrentThreadCount, CurrentThreadsBusy, MaxThreads, ConnectorAcceptCount, ConnectorMaxThreads, ConnectorMinSpareThreads" >> $BWHOSTNAME$PAPORT"_Totals.csv"
-./awks.sh Get.csv.tmp $BWHOSTNAME$PAPORT"_Totals.csv"
+echo "Time, CommittedHeap, InitialHeap, MaxHeap, UsedHeap, threadCount, peakThreadCount, DeamonThreadCount, CurrentThreadCount, CurrentThreadsBusy, MaxThreads, ConnectorAcceptCount, ConnectorMaxThreads, ConnectorMinSpareThreads" >> $HOSTNAME$PAPORT"_Totals.csv"
+./awks.sh Get.csv.tmp $HOSTNAME$PAPORT"_Totals.csv"
  
-#echo "Time, ThreadCount, PeakThreadCount, DaemonThreadCount" >> $BWHOSTNAME$PAPORT"_Threading.csv"
-#./awks.sh  GetThreading.csv.tmp $BWHOSTNAME$PAPORT"_Threading.csv"
+#echo "Time, ThreadCount, PeakThreadCount, DaemonThreadCount" >> $HOSTNAME$PAPORT"_Threading.csv"
+#./awks.sh  GetThreading.csv.tmp $HOSTNAME$PAPORT"_Threading.csv"
  
-#echo "Time, CurrentThreadCount, currentThreadsBusy, maxThreads" >> $BWHOSTNAME$PAPORT"_ThreadPool.csv"
-#./awks.sh  GetThreadPool.csv.tmp $BWHOSTNAME$PAPORT"_ThreadPool.csv"
+#echo "Time, CurrentThreadCount, currentThreadsBusy, maxThreads" >> $HOSTNAME$PAPORT"_ThreadPool.csv"
+#./awks.sh  GetThreadPool.csv.tmp $HOSTNAME$PAPORT"_ThreadPool.csv"
  
-#echo "Time, acceptCount, maxThreads, minSpareThreads" >> $BWHOSTNAME$PAPORT"_Connector.csv"
-#./awks.sh  GetThreadPool.csv.tmp $BWHOSTNAME$PAPORT"_Connector.csv"
+#echo "Time, acceptCount, maxThreads, minSpareThreads" >> $HOSTNAME$PAPORT"_Connector.csv"
+#./awks.sh  GetThreadPool.csv.tmp $HOSTNAME$PAPORT"_Connector.csv"
  
-#echo "Time, Total Bytes, Free Bytes, UsedBytes, PercentUsed" >>  $BWHOSTNAME"_MemoryUsage.csv"
-#./awks.sh GetMemoryUsage.csv.tmp $BWHOSTNAME"_MemoryUsage.csv"
+#echo "Time, Total Bytes, Free Bytes, UsedBytes, PercentUsed" >>  $HOSTNAME"_MemoryUsage.csv"
+#./awks.sh GetMemoryUsage.csv.tmp $HOSTNAME"_MemoryUsage.csv"
  
-#echo "Time,FreePhysicalMemorySize" >> $BWHOSTNAME"_OperatingSystem.csv"
-#./awks.sh GetOperatingSystem.csv.tmp $BWHOSTNAME"_OperatingSystem.csv"
+#echo "Time,FreePhysicalMemorySize" >> $HOSTNAME"_OperatingSystem.csv"
+#./awks.sh GetOperatingSystem.csv.tmp $HOSTNAME"_OperatingSystem.csv"
 #clean up
  
 rm -f *.tmp
 rm -f *.txt
-#rm -f *.csv
+rm -f TimeStamps.csv
