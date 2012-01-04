@@ -25,8 +25,6 @@ mkdir -p $OUTPUTDIR/$SUBDIR
 
 
 
-
-
 #Send Temporary Pin Stats
 
 grep "CI Search By Party Identifier, ProcessDefinitions/CustomerIndex/SearchByPartyIdentifer/Implementation/SearchByPartyIdentifier.process, BWP.Core/Services/SendTemporaryPIN/Interface/wsPerformSendTemoraryPin.process/Perform Send Temporary PIN>BWP.Core/Services/SendTemporaryPIN/Implementation/PerformSendTemporaryPIN.process/Search By Party Identifier" $INPUTLOG >> $OUTPUTDIR/$SUBDIR/$HOSTNAME"_SendTempPin_CI.csv"
@@ -85,6 +83,35 @@ grep "CI Search By Party Identifier, ProcessDefinitions/CustomerIndex/SearchByPa
 grep " Perform Check Customer, BWP.Core/Services/CheckCustomer/Interface/wsPerformCheckCustomer.process," $INPUTLOG >> $OUTPUTDIR/$SUBDIR/$HOSTNAME"_CheckCustomer_TBSBTotal.csv"
 
 
+#Request Assertion
+
+grep "Invoke Request Assertion Method, BWP.Core/Services/RequestAssertion/Implementation/PerformRequestAssertion.process, BWP.Core/Services/RequestAssertion/Interface/wsPerformRequestAssertion.process/Perform Request Assertion" $INPUTLOG >> $OUTPUTDIR/$SUBDIR/$HOSTNAME"_RequestAssertion_InvokeSecEngine.csv"
+
+grep  "Perform Request Assertion, BWP.Core/Services/RequestAssertion/Interface/wsPerformRequestAssertion.process," $INPUTLOG >> $OUTPUTDIR/$SUBDIR/$HOSTNAME"_RequestAssertion_TBSBTotal.csv"
+
+
+
+#Terminate Session
+
+grep "Invoke Terminate Session Method, BWP.Core/Services/TerminateSession/Implementation/PerformTerminateSession.process, BWP.Core/Services/TerminateSession/Interface/wsPerformTerminateSession.process/Perform Terminate Session" $INPUTLOG >> $OUTPUTDIR/$SUBDIR/$HOSTNAME"_InvokeTerminateSessionProcess_.csv"
+
+grep "CSSO Log Out Call, ProcessDefinitions/CSSO/LogOut/Implementation/LogOut.process, BWP.Core/Services/TerminateSession/Interface/wsPerformTerminateSession.process/Perform Terminate Session>BWP.Core/Services/TerminateSession/Implementation/PerformTerminateSession.process/Log Out from CSSO" $INPUTLOG >> $OUTPUTDIR/$SUBDIR/$HOSTNAME"_TerminateSession_CSSOLogout.csv"
+
+grep "Perform Terminate Session, BWP.Core/Services/TerminateSession/Interface/wsPerformTerminateSession.process," $INPUTLOG >> $OUTPUTDIR/$SUBDIR/$HOSTNAME"_TerminateSession_TBSBTotal.csv"
+
+
+
+#GetPersonalDetails
+
+grep "CI Search By Party Identifier, ProcessDefinitions/CustomerIndex/SearchByPartyIdentifer/Implementation/SearchByPartyIdentifier.process, BWP.Core/Services/GetPersonalDetails/Interface/wsPerformGetPersonalDetails.process/Get Personal Details>BWP.Core/Services/GetPersonalDetails/Implementation/PerformGetPersonalDetails.process/Search By Party Identifier" $INPUTLOG >> $OUTPUTDIR/$SUBDIR/$HOSTNAME"_GetPersonalDetails_CISearchPartyByIdentifier.csv"
+
+grep "TS2 Inquire Multi Info, ProcessDefinitions/CreditCards/GetCustomerAddress/Implementation/GetCustaddress.process, BWP.Core/Services/GetPersonalDetails/Interface/wsPerformGetPersonalDetails.process/Get Personal Details>BWP.Core/Services/GetPersonalDetails/Implementation/PerformGetPersonalDetails.process/Get Customer Address from Credit Cards" $INPUTLOG >> $OUTPUTDIR/$SUBDIR/$HOSTNAME"_GetPersonalDetails_TS2MultiInquiry.csv"
+
+grep "Get Personal Details, BWP.Core/Services/GetPersonalDetails/Interface/wsPerformGetPersonalDetails.process," $INPUTLOG >> $OUTPUTDIR/$SUBDIR/$HOSTNAME"_GetPersonalDetails_TBSBTotal.csv"
+
+
+
+
+
 #Removing empty .csv files
 find $OUTPUTDIR -maxdepth 2 -type f -empty -print0|xargs -0 rm -f
-
