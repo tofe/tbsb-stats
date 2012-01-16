@@ -23,50 +23,50 @@ then
 fi
 
 #Get Time Stamps
-#for i in `egrep '[0-9][0-9]:[0-9][0-9]' $INPUTLOG`; do echo $i"," ; done >> timestamps.txt
-for i in `egrep '[0-9][0-9]:[0-9][0-9]' $INPUTLOG  | awk {'print $1'}`; do echo $i"," ; done >> timestamps.txt
+#for i in `egrep '[0-9][0-9]:[0-9][0-9]' $INPUTLOG`; do echo $i"," ; done >> timestamps.text
+for i in `egrep '[0-9][0-9]:[0-9][0-9]' $INPUTLOG  | awk {'print $1'}`; do echo $i"," ; done >> timestamps.text
  
 # Take relevent fields
-grep -A 4 ^HeapMemoryUsage $INPUTLOG | egrep '(committed|init|max|used)' >> HeapMemory.txt
-grep -A 6 Threading $INPUTLOG  | grep -v \# | grep -v \- | grep -v "^$"  >> Threading.txt
-grep -A 1 OperatingSystem $INPUTLOG  | grep -v \-  | grep Free >> OperatingSystem.txt
-grep Threads $INPUTLOG  | grep -v max | grep -v current | grep -v min >> threads.txt
-grep -A 7 GetMemoryUsage $INPUTLOG | egrep '(FreeBytes|PercentUsed|TotalBytes|UsedBytes)' >> GetMemoryUsage.txt
-grep -A 3 Connector $INPUTLOG  | egrep '(acceptCount|maxThreads)' >> TomCatConnector.txt
-grep -A 6 ThreadPool $INPUTLOG  | grep -v \# | grep -v \- | grep -v "^$"  >> ThreadPool.txt
+grep -A 4 ^HeapMemoryUsage $INPUTLOG | egrep '(committed|init|max|used)' >> HeapMemory.text
+grep -A 6 Threading $INPUTLOG  | grep -v \# | grep -v \- | grep -v "^$"  >> Threading.text
+grep -A 1 OperatingSystem $INPUTLOG  | grep -v \-  | grep Free >> OperatingSystem.text
+grep Threads $INPUTLOG  | grep -v max | grep -v current | grep -v min >> threads.text
+grep -A 7 GetMemoryUsage $INPUTLOG | egrep '(FreeBytes|PercentUsed|TotalBytes|UsedBytes)' >> GetMemoryUsage.text
+grep -A 3 Connector $INPUTLOG  | egrep '(acceptCount|maxThreads)' >> TomCatConnector.text
+grep -A 6 ThreadPool $INPUTLOG  | grep -v \# | grep -v \- | grep -v "^$"  >> ThreadPool.text
  
 # Parse Timestamps to CSV
-cat timestamps.txt | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> TimeStamps.csv
+cat timestamps.text | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> TimeStamps.csv
  
 #Collect  "Time, CommittedBytes, InitialBytes, MaxBytes, Used" from HeapMemoryUsage MBEAN >> GetHeapMemoryUsage.csv
 cat TimeStamps.csv >> BW.csv.tmp
-grep committed HeapMemory.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
-grep init HeapMemory.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
-grep max HeapMemory.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
-grep used HeapMemory.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
+grep committed HeapMemory.text | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
+grep init HeapMemory.text | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
+grep max HeapMemory.text | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
+grep used HeapMemory.text | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
  
 #Collect  "Time, Total Bytes, Free Bytes, UsedBytes, PercentUsed" from BW Engine MBEAN >> GetMemoryUsage.csv
 #cat TimeStamps.csv >> GetMemoryUsage.csv.tmp
-grep TotalBytes GetMemoryUsage.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
-grep FreeBytes GetMemoryUsage.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
-grep UsedBytes GetMemoryUsage.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
-grep PercentUsed GetMemoryUsage.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
+grep TotalBytes GetMemoryUsage.text | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
+grep FreeBytes GetMemoryUsage.text | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
+grep UsedBytes GetMemoryUsage.text | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
+grep PercentUsed GetMemoryUsage.text | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
  
 #Collect "FreePhysicalMemorySize" >> GetOperatingSystem.csv
 #cat TimeStamps.csv >> GetOperatingSystem.csv.tmp
-grep FreePhysicalMemorySize OperatingSystem.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
+grep FreePhysicalMemorySize OperatingSystem.text | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
  
 #Collect "PeakThreadCount, DaemonThreadCount" from java.lang.Threading MBEAN>> GetThreading.csv
 #cat TimeStamps.csv >> GetThreading.csv.tmp
-grep PeakThreadCount Threading.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
-grep DaemonThreadCount Threading.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
+grep PeakThreadCount Threading.text | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
+grep DaemonThreadCount Threading.text | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
  
  
 #Collect "maxThreads, currentThreadCount, currentThreadsBusy " from TomCatEngine.ThreadPool MBEAN >> GetThreadPool.csv.tmp
 #cat TimeStamps.csv >> GetThreadPool.csv.tmp
-grep maxThreads ThreadPool.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
-grep currentThreadCount ThreadPool.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
-grep currentThreadsBusy ThreadPool.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
+grep maxThreads ThreadPool.text | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
+grep currentThreadCount ThreadPool.text | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
+grep currentThreadsBusy ThreadPool.text | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
  
  
 #Turn rows in to CSV columns
@@ -89,7 +89,7 @@ mkdir -p $OUTPUTDIR/output
 
 #clean up
 rm -f *.tmp
-rm -f *.txt
+rm -f *.text
 rm -f TimeStamps.csv
 
 mv  $HOSTNAME"_Totals.csv" $OUTPUTDIR/output/
