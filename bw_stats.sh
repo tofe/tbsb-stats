@@ -38,14 +38,14 @@ grep -A 6 ThreadPool $INPUTLOG  | grep -v \# | grep -v \- | grep -v "^$"  >> Thr
 # Parse Timestamps to CSV
 cat timestamps.txt | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> TimeStamps.csv
  
-#Collect  "Time, CommittedBytes, InitialBytes, MaxBytes, Used" >> GetHeapMemoryUsage.csv
+#Collect  "Time, CommittedBytes, InitialBytes, MaxBytes, Used" from HeapMemoryUsage MBEAN >> GetHeapMemoryUsage.csv
 cat TimeStamps.csv >> BW.csv.tmp
 grep committed HeapMemory.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
 grep init HeapMemory.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
 grep max HeapMemory.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
 grep used HeapMemory.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
  
-#Collect  "Time, Total Bytes, Free Bytes, UsedBytes, PercentUsed" >> GetMemoryUsage.csv
+#Collect  "Time, Total Bytes, Free Bytes, UsedBytes, PercentUsed" from BW Engine MBEAN >> GetMemoryUsage.csv
 #cat TimeStamps.csv >> GetMemoryUsage.csv.tmp
 grep TotalBytes GetMemoryUsage.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
 grep FreeBytes GetMemoryUsage.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
@@ -56,13 +56,13 @@ grep PercentUsed GetMemoryUsage.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -
 #cat TimeStamps.csv >> GetOperatingSystem.csv.tmp
 grep FreePhysicalMemorySize OperatingSystem.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
  
-#Collect "PeakThreadCount, DaemonThreadCount" >> GetThreading.csv
+#Collect "PeakThreadCount, DaemonThreadCount" from java.lang.Threading MBEAN>> GetThreading.csv
 #cat TimeStamps.csv >> GetThreading.csv.tmp
 grep PeakThreadCount Threading.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
 grep DaemonThreadCount Threading.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
  
  
-#Collect "maxThreads, currentThreadCount, currentThreadsBusy " >> GetThreadPool.csv.tmp
+#Collect "maxThreads, currentThreadCount, currentThreadsBusy " from TomCatEngine.ThreadPool MBEAN >> GetThreadPool.csv.tmp
 #cat TimeStamps.csv >> GetThreadPool.csv.tmp
 grep maxThreads ThreadPool.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
 grep currentThreadCount ThreadPool.txt | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
@@ -70,7 +70,7 @@ grep currentThreadsBusy ThreadPool.txt | awk '{print $3}' | sed 's/\;/\,/g' | se
  
  
 #Turn rows in to CSV columns
-echo "Time, CommittedBytes_Heap, InitialBytes_Heap, MaxBytes_Heap, UsedBytes_Heap, TotalBytes, FreeBytes, UsedBytes, Percent_Memory_Used, Free_OS_Memory, PeakThreadCount, DaemonThreadCount, MaxThreads, CurrentThreadCount, CurrentThreadsBusy " >> $HOSTNAME"_Totals.csv"
+echo "Time, CommittedBytes_Heap, InitialBytes_Heap, MaxBytes_Heap, UsedBytes_Heap, TotalBytes_BWEngine, FreeBytes_BWEngine, UsedBytes_BWEngine, Percent_Memory_Used_BWEngine, Free_OS_Memory, PeakThreadCount_Java.lang.Threading, DaemonThreadCount_Java.lang.Threading, MaxThreads_TomCatEngine.ThreadPool, CurrentThreadCount_TomcatEngine.ThreadPool, CurrentThreadsBusy_TomCatEngine.ThreadPool " >> $HOSTNAME"_Totals.csv"
 ./awks.sh BW.csv.tmp $HOSTNAME"_Totals.csv"
  
 #echo "Time, Total Bytes, Free Bytes, UsedBytes, PercentUsed" >>  $HOSTNAME"_MemoryUsage.csv"
