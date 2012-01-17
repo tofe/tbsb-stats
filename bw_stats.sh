@@ -34,6 +34,7 @@ grep Threads $INPUTLOG  | grep -v max | grep -v current | grep -v min >> threads
 grep -A 7 GetMemoryUsage $INPUTLOG | egrep '(FreeBytes|PercentUsed|TotalBytes|UsedBytes)' >> GetMemoryUsage.text
 grep -A 3 Connector $INPUTLOG  | egrep '(acceptCount|maxThreads)' >> TomCatConnector.text
 grep -A 6 ThreadPool $INPUTLOG  | grep -v \# | grep -v \- | grep -v "^$"  >> ThreadPool.text
+grep -A 2 "calling operation GetActiveProcessCount of mbean com.tibco.bw:key=engine,name=" $INPUTLOG |  egrep ^[0-9] >> GetActiveProcessCount.text
  
 # Parse Timestamps to CSV
 cat timestamps.text | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> TimeStamps.csv
@@ -68,9 +69,13 @@ grep maxThreads ThreadPool.text | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e
 grep currentThreadCount ThreadPool.text | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
 grep currentThreadsBusy ThreadPool.text | awk '{print $3}' | sed 's/\;/\,/g' | sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" >> BW.csv.tmp
  
+#Collect ActiveProcessCount from BW Engine MBEAN >> GetActiveProcessCount.csv.tmp
+#cat TimeStamps.csv >> GetActiveProcessCount.csv.tmp
+for i in `cat GetActiveProcessCount.text` ; do echo $i"," >> GetActiveProcessCount.csv.tmp ; done
+sed -n -e ":a" -e "$ s/\n/ /gp;N;b a" GetActiveProcessCount.csv.tmp >> BW.csv.tmp 
  
 #Turn rows in to CSV columns
-echo "Time, CommittedBytes_Heap, InitialBytes_Heap, MaxBytes_Heap, UsedBytes_Heap, TotalBytes_BWEngine, FreeBytes_BWEngine, UsedBytes_BWEngine, Percent_Memory_Used_BWEngine, Free_OS_Memory, PeakThreadCount_Java.lang.Threading, DaemonThreadCount_Java.lang.Threading, MaxThreads_TomCatEngine.ThreadPool, CurrentThreadCount_TomcatEngine.ThreadPool, CurrentThreadsBusy_TomCatEngine.ThreadPool " >> $HOSTNAME"_Totals.csv"
+echo "Time, CommittedBytes_Heap, InitialBytes_Heap, MaxBytes_Heap, UsedBytes_Heap, TotalBytes_BWEngine, FreeBytes_BWEngine, UsedBytes_BWEngine, Percent_Memory_Used_BWEngine, Free_OS_Memory, PeakThreadCount_Java.lang.Threading, DaemonThreadCount_Java.lang.Threading, MaxThreads_TomCatEngine.ThreadPool, CurrentThreadCount_TomcatEngine.ThreadPool, CurrentThreadsBusy_TomCatEngine.ThreadPool, ActiveBWProcessCount " >> $HOSTNAME"_Totals.csv"
 ./awks.sh BW.csv.tmp $HOSTNAME"_Totals.csv"
  
 #echo "Time, Total Bytes, Free Bytes, UsedBytes, PercentUsed" >>  $HOSTNAME"_MemoryUsage.csv"
