@@ -85,7 +85,7 @@ if [ "$1" == "BWGetStatus_clear" ]; then
     # on the TBSB Process Engine.
     #-------------------------------------------------------------------------------
     echo $Date " Hawk: BW Engine is reporting 0 errors" >> $HawkLogFile
-    ext 0
+    exit 0
 fi
 
 
@@ -122,5 +122,5 @@ if [ "$1" == "EMSPendingMessageCount_clear" ]; then
     exit 0
 fi
 
-
+echo "You have not entered a valid alert method"
 
