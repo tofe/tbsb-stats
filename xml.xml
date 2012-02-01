@@ -1,0 +1,55 @@
+<microagent>
+
+        <!-- The classname of the microagent -->
+
+        <classname>com.tibco.tibjms.admin.hawk.HawkController</classname>
+        <!-- Change to above from HawkController to HawkListener if
+             you only need to monitor the JMS daemon.  -->
+
+        <!-- The arguments to be passed to the
+             MicroAgent.initializeMicroAgent() method -->
+
+        <arguments>
+                <arg>-user</arg>
+                <arg>admin</arg>
+        <!--    <arg>-password</arg>
+                <arg>EM$Adm1n!</arg> -->
+
+        <!--          If you are using an encrypted password comment out
+                     the two lines above and use the following two instead -->
+
+                                <arg>-encryptedPassword</arg>
+                                <arg>#!qf/vrn4AKQmPDg9GUzc1YQ==</arg>
+
+                <!-- If you are not connecting to the default JMS daemon
+                -->
+                                <arg>-server</arg>
+                                <arg>tcp://ukirsbl0.ukpre.tescobank.org:8888</arg>
+
+                <!-- If you need a method timeout that is different from
+                     the default of 60 seconds (valid values are from 5 to
+                     3600 seconds inclusive):
+                                <arg>-timeout</arg>
+                                <arg>example_timeout_seconds</arg>
+                -->
+                <!-- If you need old-style agent names, that
+                         include the server name:
+                                <arg>-server_in_agent_name</arg>
+                -->
+        </arguments>
+
+        <!-- The classpath (a list of jar files) containing
+        the classes required for implementation. If a simple
+        jar file name is used (i.e., not a fully qualified name)
+        then the jar file must reside in the same directory as this
+        .hma file -->
+
+        <classpath>
+                <!-- this is always required -->
+                <path>tibjmsadmin.jar</path>
+                <path>tibjms.jar</path>
+                <path>jms.jar</path>
+                <path>tibcrypt.jar</path>
+        </classpath>
+
+</microagent>
