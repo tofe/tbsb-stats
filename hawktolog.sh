@@ -110,6 +110,16 @@ if [ "$1" == "EMSPendingMessageCount_alert" ]; then
     #--------------------------------------------------------------------------------
     # The EMS microagent has returned a count of more than 100 pending messages
     #-------------------------------------------------------------------------------
+    if [ -z "$2" ]
+        then
+        echo "No Number of pending messages supplied. Usage <hawktolog.sh> EMSPendingMessageCountt_alert messages transportname"
+        exit 1
+    fi
+    if [ -z "$3" ]
+        then
+        echo "No topic or queue name supplied. Usage <hawktolog.sh> EMSPendingMessageCountt_alert messages transportname"
+        exit 1
+    fi
     echo $Date " Hawk: EMS Server has more than 100 pending messages of" $2 " " $3  >> $HawkLogFile
     exit 0
 fi
@@ -118,6 +128,11 @@ if [ "$1" == "EMSPendingMessageCount_clear" ]; then
     #--------------------------------------------------------------------------------
     # The EMS microagent has returned a count of more than 100 pending messages
     #-------------------------------------------------------------------------------
+    if [ -z "$2" ]
+        then
+        echo "No topic or queue name supplied. Usage <hawktolog.sh> EMSPendingMessageCountt_alert transportname"
+        exit 1
+    fi
     echo $Date " Hawk: EMS Server has less than 100 pending messages on" $2 >> $HawkLogFile
     exit 0
 fi
@@ -126,7 +141,6 @@ if [ "$1" == "BWGetProcessStarters_alert" ]; then
     #--------------------------------------------------------------------------------
     # The BW TBSB microagent has returned a TBSB Proces Starter (Service) is not Active
     #-------------------------------------------------------------------------------
-
     if [ -z "$2" ]
         then
         echo "No Process Starter set defined to alert on. Usage <hawktolog.sh> GetProcessStarterst_alert ProcessStarter"
@@ -188,6 +202,11 @@ if [ "$1" == "ProcessEMSHealthCheck_alert" ]; then
     # The Service microagent method GetInstanceCount() has returned incorrect number
     # of  Running EMS HealthCheckers
     #-------------------------------------------------------------------------------
+    if [ -z "$2" ]
+        then
+        echo "No number of running EMS health checkers supplied. Usage <hawktolog.sh> ProcessEMSHealthCheck_alert runninghealthcheckers"
+        exit 1
+    fi
     echo $Date " Hawk: A required instance of EMS Health Checker process is not running. Currently Running:" $2 >> $HawkLogFile
     exit 0
 fi
@@ -197,6 +216,11 @@ if [ "$1" == "ProcessEMSHealthCheck_clear" ]; then
     # The Service microagent method GetInstanceCount() has returned the correct number
     # of  Running EMS HealthCheckers
     #-------------------------------------------------------------------------------
+    if [ -z "$2" ]
+        then
+        echo "No number of running EMS health checkers supplied. Usage <hawktolog.sh> ProcessEMSHealthCheck_clear runninghealthcheckers"
+        exit 1
+    fi
     echo $Date " Hawk: The required number of EMS Health Checker processes are running. Currently Running:" $2 >> $HawkLogFile
     exit 0
 fi
@@ -237,6 +261,16 @@ if [ "$1" == "FileSystem_alert" ]; then
     #--------------------------------------------------------------------------------
     # The FileSystem microagent method getByMountPoint() has returned less than 15% Free Space
     #-------------------------------------------------------------------------------
+    if [ -z "$2" ]
+        then
+        echo "No mount point name supplied. Usage <hawktolog.sh> FileSystem_alert mountpoint percentfree"
+        exit 1
+    fi
+    if [ -z "$3" ]
+        then
+        echo "No % Free value supplied. Usage <hawktolog.sh> FileSystem_alert mountpoint percentfree"
+        exit 1
+    fi
     echo $Date " Hawk: %Free space on mount point " $2 $3 >> $HawkLogFile
     exit 0
 fi
@@ -245,6 +279,16 @@ if [ "$1" == "FileSystem_clear" ]; then
     #--------------------------------------------------------------------------------
     # The FileSystem microagent method getByMountPoint() has returned more than 15% Free Space
     #-------------------------------------------------------------------------------
+    if [ -z "$2" ]
+        then
+        echo "No mount point name supplied. Usage <hawktolog.sh> FileSystem_clear mountpoint percentfree"
+        exit 1
+    fi
+    if [ -z "$3" ]
+        then
+        echo "No % Free value supplied. Usage <hawktolog.sh> FileSystem_clear mountpoint percentfree"
+        exit 1
+    fi
     echo $Date " Hawk: %Free space on mount point " $2 $3 >> $HawkLogFile
     exit 0
 fi
@@ -254,6 +298,11 @@ if [ "$1" == "ProcessPolicyAgent_alert" ]; then
     # The Service microagent method GetInstanceCount() has returned incorrect number
     # of  Running Policy Agents
     #-------------------------------------------------------------------------------
+    if [ -z "$2" ]
+        then
+        echo "No number of currently running Policy Agents supplied. Usage <hawktolog.sh> ProcessPolicyAgent_alert runningprocesses"
+        exit 1
+    fi
     echo $Date " Hawk: A required instance of Policy Agent processes is not running. Currently Running:" $2 >> $HawkLogFile
     exit 0
 fi
@@ -263,6 +312,11 @@ if [ "$1" == "ProcessPolicyAgent_clear" ]; then
     # The Service microagent method GetInstanceCount() has returned incorrect number
     # of  Running Policy Agents
     #-------------------------------------------------------------------------------
+   if [ -z "$2" ]
+        then
+        echo "No number of currently running Policy Agents supplied. Usage <hawktolog.sh> ProcessPolicyAgent_clear runningprocesses"
+        exit 1
+    fi
     echo $Date " Hawk: The required number of Policy Agent processes are running. Currently Running:" $2 >> $HawkLogFile
     exit 0
 fi
