@@ -110,7 +110,7 @@ if [ "$1" == "EMSPendingMessageCount_alert" ]; then
     #--------------------------------------------------------------------------------
     # The EMS microagent has returned a count of more than 100 pending messages
     #-------------------------------------------------------------------------------
-    echo $Date " Hawk: EMS Server has more than 100 pending messages" >> $HawkLogFile
+    echo $Date " Hawk: EMS Server has more than 100 pending messages of" $2 " " $3  >> $HawkLogFile
     exit 0
 fi
 
@@ -118,7 +118,170 @@ if [ "$1" == "EMSPendingMessageCount_clear" ]; then
     #--------------------------------------------------------------------------------
     # The EMS microagent has returned a count of more than 100 pending messages
     #-------------------------------------------------------------------------------
-    echo $Date " Hawk: EMS Server has less than 100 pending messages" >> $HawkLogFile
+    echo $Date " Hawk: EMS Server has less than 100 pending messages on" $2 >> $HawkLogFile
+    exit 0
+fi
+
+if [ "$1" == "BWGetProcessStarters_alert" ]; then
+    #--------------------------------------------------------------------------------
+    # The BW TBSB microagent has returned a TBSB Proces Starter (Service) is not Active
+    #-------------------------------------------------------------------------------
+
+    if [ -z "$2" ]
+        then
+        echo "No Process Starter set defined to alert on. Usage <hawktolog.sh> GetProcessStarterst_alert ProcessStarter"
+        exit 1
+    fi
+    echo $Date "  Hawk: A Process within the TBSB-Archive application instance is not active. Process:" $2  >> $HawkLogFile
+    exit 0
+fi
+
+if [ "$1" == "BWGetProcessStarters_clear" ]; then
+    #--------------------------------------------------------------------------------
+    # The BW TBSB microagent has returned the TBSB Proces Starter is Active
+    #-------------------------------------------------------------------------------
+
+    if [ -z "$2" ]
+        then
+        echo "No Process Starter set defined to alert on. Usage <hawktolog.sh> GetProcessStarterst_clear ProcessStarter"
+        exit 1
+    fi
+    echo $Date "  Hawk: The Process within the TBSB-Archive application is now active. Process:" $2  >> $HawkLogFile
+    exit 0
+fi
+
+if [ "$1" == "ProcessBWEngine_alert" ]; then
+    #--------------------------------------------------------------------------------
+    # The Service microagent method GetInstanceCount() has returned 0 Running BW Engines
+    #-------------------------------------------------------------------------------
+    echo $Date " Hawk: BW Process Engine Process bwengine is not running" >> $HawkLogFile
+    exit 0
+fi
+
+if [ "$1" == "ProcessBWEngine_clear" ]; then
+    #--------------------------------------------------------------------------------
+    # The Service microagent method GetInstanceCount() has returned Running BW Engines
+    #-------------------------------------------------------------------------------
+    echo $Date " Hawk: 1 or more BW Process Engine Processes are running" >> $HawkLogFile
+    exit 0
+fi
+
+
+if [ "$1" == "ProcessSecEngine_alert" ]; then
+    #--------------------------------------------------------------------------------
+    # The Service microagent method GetInstanceCount() has returned 0 Running Security Engines
+    #-------------------------------------------------------------------------------
+    echo $Date " Hawk: Security Engine Process is not running" >> $HawkLogFile
+    exit 0
+fi
+
+if [ "$1" == "ProcessSecEngine_clear" ]; then
+    #--------------------------------------------------------------------------------
+    # The Service microagent method GetInstanceCount() has returned Running Security Engines
+    #-------------------------------------------------------------------------------
+    echo $Date " Hawk: Security Engine Process is running" >> $HawkLogFile
+    exit 0
+fi
+
+if [ "$1" == "ProcessEMSHealthCheck_alert" ]; then
+    #--------------------------------------------------------------------------------
+    # The Service microagent method GetInstanceCount() has returned incorrect number
+    # of  Running EMS HealthCheckers
+    #-------------------------------------------------------------------------------
+    echo $Date " Hawk: A required instance of EMS Health Checker process is not running. Currently Running:" $2 >> $HawkLogFile
+    exit 0
+fi
+
+if [ "$1" == "ProcessEMSHealthCheck_clear" ]; then
+    #--------------------------------------------------------------------------------
+    # The Service microagent method GetInstanceCount() has returned the correct number
+    # of  Running EMS HealthCheckers
+    #-------------------------------------------------------------------------------
+    echo $Date " Hawk: The required number of EMS Health Checker processes are running. Currently Running:" $2 >> $HawkLogFile
+    exit 0
+fi
+
+if [ "$1" == "ProcessEMSDaemon_alert" ]; then
+    #--------------------------------------------------------------------------------
+    # The Service microagent method GetInstanceCount() has returned the ems deamon process is not running
+    #-------------------------------------------------------------------------------
+    echo $Date " Hawk: The TIBCO EMS Daemon process is not running" >> $HawkLogFile
+    exit 0
+fi
+
+if [ "$1" == "ProcessEMSDaemon_clear" ]; then
+    #--------------------------------------------------------------------------------
+    # The Service microagent method GetInstanceCount() has returned the ems deamon process is running
+    #-------------------------------------------------------------------------------
+    echo $Date " Hawk: The TIBCO EMS Daemon process is running" >> $HawkLogFile
+    exit 0
+fi
+
+if [ "$1" == "SystemCPU_alert" ]; then
+    #--------------------------------------------------------------------------------
+    # The System microagent method getCpuInfo() has returned less than 15% idle time
+    #-------------------------------------------------------------------------------
+    echo $Date " Hawk: CPU utilization at >= 85%" >> $HawkLogFile
+    exit 0
+fi
+
+if [ "$1" == "SystemCPU_clear" ]; then
+    #--------------------------------------------------------------------------------
+    # The System microagent method getCpuInfo() has returned greater than 15% idle time
+    #-------------------------------------------------------------------------------
+    echo $Date " Hawk: CPU utilization at < 85%" >> $HawkLogFile
+    exit 0
+fi
+
+if [ "$1" == "FileSystem_alert" ]; then
+    #--------------------------------------------------------------------------------
+    # The FileSystem microagent method getByMountPoint() has returned less than 15% Free Space
+    #-------------------------------------------------------------------------------
+    echo $Date " Hawk: %Free space on mount point " $2 $3 >> $HawkLogFile
+    exit 0
+fi
+
+if [ "$1" == "FileSystem_clear" ]; then
+    #--------------------------------------------------------------------------------
+    # The FileSystem microagent method getByMountPoint() has returned more than 15% Free Space
+    #-------------------------------------------------------------------------------
+    echo $Date " Hawk: %Free space on mount point " $2 $3 >> $HawkLogFile
+    exit 0
+fi
+
+if [ "$1" == "ProcessPolicyAgent_alert" ]; then
+    #--------------------------------------------------------------------------------
+    # The Service microagent method GetInstanceCount() has returned incorrect number
+    # of  Running Policy Agents
+    #-------------------------------------------------------------------------------
+    echo $Date " Hawk: A required instance of Policy Agent processes is not running. Currently Running:" $2 >> $HawkLogFile
+    exit 0
+fi
+
+if [ "$1" == "ProcessPolicyAgent_clear" ]; then
+    #--------------------------------------------------------------------------------
+    # The Service microagent method GetInstanceCount() has returned incorrect number
+    # of  Running Policy Agents
+    #-------------------------------------------------------------------------------
+    echo $Date " Hawk: The required number of Policy Agent processes are running. Currently Running:" $2 >> $HawkLogFile
+    exit 0
+fi
+
+if [ "$1" == "ProcessAdministrator_alert" ]; then
+    #--------------------------------------------------------------------------------
+    # The Service microagent method GetInstanceCount() has returned TIBCO Administrator
+    # is not running
+    #-------------------------------------------------------------------------------
+    echo $Date " Hawk: The TIBCO Administrator process is not running" >> $HawkLogFile
+    exit 0
+fi
+
+if [ "$1" == "ProcessAdministrator_clear" ]; then
+    #--------------------------------------------------------------------------------
+    # The Service microagent method GetInstanceCount() has returned TIBCO Administrator
+    # is running
+    #-------------------------------------------------------------------------------
+    echo $Date " Hawk: The TIBCO Administrator process is running" >> $HawkLogFile
     exit 0
 fi
 
