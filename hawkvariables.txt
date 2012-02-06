@@ -1,0 +1,1 @@
+HAWK_TO_LOG_SCRIPT=/tbsb/scripts/hawktolog.sh
