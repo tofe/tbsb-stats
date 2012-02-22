@@ -73,7 +73,13 @@ grep "CI Search By Party Identifier, ProcessDefinitions/CustomerIndex/SearchByPa
 
 grep "TS2 Inquire Multi, ProcessDefinitions/CreditCards/GetAccountDetails/Implementation/GetAccountDetails.process, BWP.Core/Services/GetSCV/Interface/wsPerformGetSCV.process/Perform GetSCV HTTP>BWP.Core/Services/GetSCV/Implementation/PerformGetSCV.process/Retrieve Account Data from Credit Cards" $INPUTLOG >> $OUTPUTDIR/$SUBDIR/$HOSTNAME"_GetSCV_TS2MultiInquiry.csv"
 
-grep " Perform GetSCV HTTP, BWP.Core/Services/GetSCV/Interface/wsPerformGetSCV.process," $INPUTLOG >> $OUTPUTDIR/$SUBDIR/$HOSTNAME"_GetSCV_TBSBTotal.csv"
+grep "CI Search By Party Identifier, ProcessDefinitions/CustomerIndex/SearchByPartyIdentifer/Implementation/SearchByPartyIdentifier.process, BWP.Core/Services/GetSCV/Implementation/GetSCV_JMS.process/Perform Get SCV>BWP.Core/Services/GetSCV/Implementation/PerformGetSCV.process/Retrieve Account Data from CI"  $INPUTLOG >> $OUTPUTDIR/$SUBDIR/$HOSTNAME"_GetSCV_JMS_CISearchPartyByIdentifier.csv"
+
+grep "Perform GetSCV HTTP, BWP.Core/Services/GetSCV/Interface/wsPerformGetSCV.process," $INPUTLOG >> $OUTPUTDIR/$SUBDIR/$HOSTNAME"_GetSCV_TBSBTotal.csv"
+
+grep "Perform Get SCV, BWP.Core/Services/GetSCV/Implementation/GetSCV_JMS.process" $INPUTLOG >> $OUTPUTDIR/$SUBDIR/$HOSTNAME"_GetSCV_JMS_TBSBTotal.csv"
+
+grep " Retrieve Account Data from Banking, BWP.Core/Services/GetSCV/Implementation/PerformGetSCV.process, BWP.Core/Services/GetSCV/Implementation/GetSCV_JMS.process/Perform Get SCV"  $INPUTLOG >> $OUTPUTDIR/$SUBDIR/$HOSTNAME"_GetSCV_AperioRetrieveAccountDetails.csv"
 
 
 #CheckCustomerCSSOID

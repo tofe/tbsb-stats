@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<!--
+  This file is used for configuring the Log4J logging library.  The log4j is
+  the logging infrastructure developed by the Apache group, and is separate
+  from the standard TIBCO logging infrastructure. For more information,
+  please see http://logging.apache.org/log4j/docs/index.html
+
+  TIBCO does not recommend that you alter this file. However, you may do so
+  at your discretion. This is the only file used to configure log4j. Currently
+  log4j can be used by three products with in TIBCO BusinessWorks: HTTP,
+  which depends on Jakarta Tomcat implementation, Arjuna Transasction Service
+  and JOTM.
+
+  Custom java code (BusinessWorks JavaCode or JavaMethod activity) can also
+  send log message to the TIBCO BusinessWorks log file by using the log4j
+  logger "bw.logger" that is specified in this file.  For example, TIBCO
+  BusinessWorks JavaCode activity may use the following code to log warning
+  message to the BusinessWorks log file:
+
+     org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger("bw.logger");
+     logger.warn("This is a warning message from BW JavaCode activity");
+
+  If you plan to make changes to this file, append your changes to the end of
+  the file. We do not recommend removing the current log4j configuration from
+  the file. However, you may change some of the logging levels if you so
+  desire.  Note, there may be performance consequences if you change the
+  logging levels (e.g WARN to DEBUG).
+
+  Do not move this file from its current location (BW/<x.y>/lib), as this is
+  where BW expects to find this file. If you would like to use a different
+  file in a different location please see the BW documentation.
+-->
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+  <!--
+    TIBCO BusinessWorks Appender
+    ============================
+
+    The "tibco_bw_log" is set to TIBCO
+    BusinessWorks Appender.  This appender writes log messages to the
+    TIBCO BusinessWorks log file.
+  -->
+
+  <appender name="tibco_bw_log" class="com.tibco.share.util.BWLogFileAppender">
+    <!--
+    <param name="Threshold" value="WARN"/>
+    -->
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%m"/>
+    </layout>
+  </appender>
+
+  <appender name="tibco_bw_console" class="org.apache.log4j.ConsoleAppender">
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d{yyyy MMM dd HH:mm:ss:SSS z} %X{engine} %X{role} %m %n"/>
+    </layout>
+  </appender>
+
+  <!--
+    BEF2CBEFileAppender will convert base event format object to Common Base
+    Event object and log common event format object into a rolling file which
+    can be browsered by Eclipse TPTP plugin inside Eclipse. BEF2CBELayout is
+    the key of BEF2CBEFileAppender. File name, log file path, file size
+    parameter can be configured as default RollingFileAppender in log4j.
+  -->
+  <!--
+  <appender name="tibco_bw_BEF2CBEFileAppender" class="org.apache.log4j.RollingFileAppender">
+    <param name="File" value="cbe.log"/>
+    <param name="MaxFileSize" value="500000KB"/>
+    <param name="MaxBackupIndex" value="2"/>
+
+    <layout class="com.tibco.commonlogging.appender.BEF2CBELayout"/>
+  </appender>
+  -->
+
+  <!--
+    RollingFileAppender for the ATS to log messages to a separate log file.
+  -->
+  <!--
+  <appender name="ats_log_file" class="org.apache.log4j.RollingFileAppender">
+    <param name="File" value="ArjunaTransaction.log"/>
+    <param name="MaxFileSize" value="500KB"/>
+    <param name="MaxBackupIndex" value="2"/>
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d [%t] %-5p %c - %m%n"/>
+    </layout>
+  </appender>
+  -->
+
+  <!--
+    RollingFileAppender for the JOTM to log messages to a separate log file.
+  -->
+  <!--
+  <appender name="jotm_log_file" class="org.apache.log4j.RollingFileAppender">
+    <param name="File" value="jotm.log"/>
+    <param name="MaxFileSize" value="500MB"/>
+    <param name="MaxBackupIndex" value="2"/>
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%10r [%-5c{1}] %7p - %C{1}.%M(%L) : %m\n"/>
+    </layout>
+  </appender>
+  -->
+
+  <!--
+    RollingFileAppender for the Staffware SSOLite library to log messages to a
+    separate log file.
+  -->
+  <!--
+  <appender name="sso_lite_log_file" class="org.apache.log4j.RollingFileAppender">
+    <param name="File" value="StaffwareSSOLite.log"/>
+    <param name="MaxFileSize" value="500KB"/>
+    <param name="MaxBackupIndex" value="2"/>
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d [%t] %-5p %c - %m%n"/>
+    </layout>
+  </appender>
+  -->
+
+
+  <!--
+    TIBCO BusinessWorks Logger
+    ==========================
+    The logger "bw.logger" can be used by the
+    third party application or java code executing in the TIBCO BusinessWorks
+    JVM to write the log messages to the TIBCO BusinessWorks log file.
+
+    TIBCO BusinessWorks Logger.  The logger level is "INFO" and the appender
+    is "tibco_bw_log".
+  -->
+
+  <logger name="bw.logger">
+    <level value ="INFO"/>
+    <appender-ref ref="tibco_bw_log"/>
+  </logger>
+
+  <!-- Standard engine logger -->
+  <logger name="tibco.bw">
+    <level value ="INFO"/>
+    <appender-ref ref="tibco_bw_console"/>
+
+    <!-- Add the following appender for Common Logging -->
+    <!--
+    <appender-ref ref="tibco_bw_BEF2CBEFileAppender"/>
+    -->
+  </logger>
+
+  <logger name="tibco.bw.infoRole">
+    <level value ="INFO"/>
+    <appender-ref ref="tibco_bw_log"/>
+
+    <!-- Add the following appender for Common Logging -->
+    <!--
+    <appender-ref ref="tibco_bw_BEF2CBEFileAppender"/>
+    -->
+  </logger>
+
+
+
+
+  <!--
+    Jakarta HttpClient Logger
+    =========================
+
+    Do not log out the HTTP messages that are sent out / received by the client.
+    NOTE: Jakarta HttpClient defaults some of the log4j properties to DEBUG.
+    That tends to cause serious performance problems. We have overridden that
+    behavior with a level of WARN.
+
+    HttpClient Logger.  The logger level is "WARN" and the appender is TIBCO
+    BusinessWorks Appender. This writes HTTP log messages sent/received by the
+    HTTP (SOAP/HTTP) clients to the TIBCO BusinessWorks log file.
+  -->
+  <logger name="httpclient.wire">
+    <level value ="WARN"/>
+    <appender-ref ref="tibco_bw_log"/>
+  </logger>
+
+  <!--
+    org.apache.*" package's Logger.  The logger level is "WARN" and the appender
+    is TIBCO BusinessWorks Appender.  This writes "org.apache.*" package's
+    log messages to the TIBCO BusinessWorks log file.
+  -->
+  <logger name="org.apache">
+    <level value ="WARN"/>
+    <appender-ref ref="tibco_bw_log"/>
+  </logger>
+
+  <!--
+    The logger for the Service layer.  The logger level is "WARN" and the appender is TIBCO
+    BusinessWorks Appender. This writes the service lifecycle events to the
+    TIBCO BusinessWorks file.
+  -->
+  <logger name="com.tibco.service">
+    <level value ="WARN"/>
+    <appender-ref ref="tibco_bw_log"/>
+  </logger>
+
+
+
+
+  <!--
+    Arjuna Transaction Service (ATS) Logger
+    =======================================
+
+    The logger "com.arjuna" is used by ATS to log messages.
+
+    ATS Logger.  The logger level is "WARN" and the appender is set to the
+    TIBCO BusinessWorks Appender.  To enable a separate log file for the ATS,
+    comment the next line and un-comment the line after next.
+  -->
+  <!--
+  <logger name="com.arjuna">
+    <level value ="WARN"/>
+    <appender-ref ref="tibco_bw_log"/>
+    <appender-ref ref="ats_log_file"/>
+  </logger>
+  -->
+
+  <logger name="com.arjuna">
+    <level value ="WARN"/>
+    <appender-ref ref="tibco_bw_log"/>
+  </logger>
+
+
+
+
+  <!--
+    JOTM  Logger
+    ============
+
+    The loggers "org.objectweb.jotm.*" and "org.objectweb.carol.*"  are used by
+    JOTM
+
+    ObjectWeb JOTM Loggers.  The logger level is "WARN" and the appender is set
+    to the TIBCO BusinessWorks Appender.  To enable a separate log file for the
+    ObjectWeb JOTM, add "jotm_log_file" to each of the JOTM loggers
+  -->
+
+  <logger name="org.objectweb.jotm" additivity="false">
+    <level value ="WARN"/>
+    <appender-ref ref="tibco_bw_log"/>
+  </logger>
+
+  <logger name="org.objectweb.jotm.jta" additivity="false">
+    <level value ="WARN"/>
+    <appender-ref ref="tibco_bw_log"/>
+  </logger>
+
+  <logger name="org.objectweb.jotm.recovery" additivity="false">
+    <level value ="WARN"/>
+    <appender-ref ref="tibco_bw_log"/>
+  </logger>
+
+  <logger name="org.objectweb.jotm.tests" additivity="false">
+    <level value ="WARN"/>
+    <appender-ref ref="tibco_bw_log"/>
+  </logger>
+
+  <!--
+    ObjectWeb Carol Loggers.  The logger level is "WARN" and the appender is set
+    to the TIBCO BusinessWorks Appender.  To enable a separate log file for the
+    ObjectWeb Carol, add "jotm_log_file" to each of the Carol loggers
+  -->
+
+  <logger name="org.objectweb.carol" additivity="false">
+    <level value ="INFO"/>
+    <appender-ref ref="tibco_bw_log"/>
+  </logger>
+
+  <logger name="org.objectweb.carol.rmi" additivity="false">
+    <level value ="WARN"/>
+    <appender-ref ref="tibco_bw_log"/>
+  </logger>
+
+  <logger name="org.objectweb.carol.jndi" additivity="false">
+    <level value ="WARN"/>
+    <appender-ref ref="tibco_bw_log"/>
+  </logger>
+
+
+
+
+  <!--
+    Staffware SSOLite library Logger
+    ================================
+
+    The logger "com.staffware.integration.ssolite" is used by Staffware SSO-Lite
+    library to log messages.
+
+    Staffware SSOLite library Logger. The logger level is "WARN" and the
+    appender is set to the TIBCO BusinessWorks Appender. To enable a separate
+    log file for the Staffware SSOLite library, comment the next line and
+    un-comment the line after next.
+  -->
+
+  <logger name="com.staffware.integration.ssolite">
+    <level value ="WARN"/>
+    <appender-ref ref="tibco_bw_log"/>
+  </logger>
+
+  <!--
+  <logger name="com.staffware.integration.ssolite">
+    <level value ="WARN"/>
+    <appender-ref ref="tibco_bw_log"/>
+    <appender-ref ref="sso_lite_log_file"/>
+  </logger>
+  -->
+

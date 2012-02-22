@@ -1,1 +1,8 @@
 HAWK_TO_LOG_SCRIPT=/tbsb/scripts/hawktolog.sh
+EMS_SCRIPT=/tbsb/scripts/runEMS.sh
+EMS_HEALTHCHECK_SCRIPT=/tbsb/scripts/runEMSHealthCheck.sh
+EMS_HEALTHCHECK_LOG_DIR=/tbsb/ems-healthcheck/
+EMS_HEALTHCHECK_LOG_FILE=ems-healthcheck.log
+SECONDARY_EMS_HEALTHCHECK_SCRIPT=/tbsb/scripts/runSecondaryEMSHealthCheck.sh
+SECONDARY_EMS_HEALTHCHECK_LOG_DIR=/tbsb/sdc-ems-healthcheck/
+SECONDARY_EMS_HEALTHCHECK_LOG_FILE=ems-healthcheck.log
